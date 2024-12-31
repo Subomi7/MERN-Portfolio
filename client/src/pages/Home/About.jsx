@@ -1,13 +1,17 @@
 import React, { useEffect, useState } from 'react';
 import SectionTitle from '../../components/SectionTitle';
 import { DotLottieReact } from '@lottiefiles/dotlottie-react';
+import { CPlaceholder } from '@coreui/react';
+
 const About = () => {
   const [data, setData] = useState([]);
   const [error, setError] = useState(false);
 
   const getData = async () => {
     try {
-      const req = await fetch('http://localhost:3000/api/about/get-about');
+      const req = await fetch(
+        'https://mern-portfolio-qgid.onrender.com/api/about/get-about'
+      );
       if (!req.ok) {
         throw new Error(`HTTP error! status: ${req.status}`);
       }
@@ -28,7 +32,11 @@ const About = () => {
     <div className=''>
       {data.length === 0 ? (
         <>
-          <div className='text-white'>Loading...</div>
+          <div className='text-white'>
+            <CPlaceholder xs={6} />
+            <CPlaceholder className='w-75' />
+            <CPlaceholder style={{ width: '30%' }} />
+          </div>
         </>
       ) : (
         data.map((about) => {

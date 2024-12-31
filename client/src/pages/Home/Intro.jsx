@@ -1,11 +1,14 @@
 import React, { useEffect, useState } from 'react';
+import { CPlaceholder } from '@coreui/react';
 
 const Intro = () => {
   const [data, setData] = useState([]);
 
   const getData = async () => {
     try {
-      const req = await fetch('http://localhost:3000/api/intro/get-intro');
+      const req = await fetch(
+        'https://mern-portfolio-qgid.onrender.com/api/intro/get-intro'
+      );
       if (!req.ok) {
         throw new Error(`HTTP error! status: ${req.status}`);
       }
@@ -25,7 +28,11 @@ const Intro = () => {
   return (
     <div>
       {data.length === 0 ? (
-        <div className='text-white'>Loading...</div>
+        <div className='text-white'>
+          <CPlaceholder xs={6} />
+          <CPlaceholder className='w-75' />
+          <CPlaceholder style={{ width: '30%' }} />
+        </div>
       ) : (
         data.map((intro) => {
           const {
