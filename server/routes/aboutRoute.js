@@ -1,8 +1,9 @@
-import express from "express";
-import { createAbout } from "../controller/aboutController.js";
+import express from 'express';
+import { allAbout, createAbout } from '../controller/aboutController.js';
 
-const router = express.Router()
+const router = express.Router();
 
-router.post("/", createAbout)
+router.post('/', createAbout);
+router.get('/get-about', allAbout);
 
 export default router;

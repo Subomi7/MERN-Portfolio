@@ -1,9 +1,9 @@
 import express from 'express';
-import { createContact } from '../controller/contactController.js';
+import { allContact, createContact } from '../controller/contactController.js';
 
 const router = express.Router();
 
 router.post('/', createContact);
+router.get('/get-contact', allContact);
 
-
-export default router
+export default router;

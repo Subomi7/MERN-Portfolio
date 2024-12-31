@@ -6,11 +6,13 @@ import aboutRoute from './routes/aboutRoute.js';
 import experienceRoute from './routes/experienceRoute.js';
 import projectRoute from './routes/projectRoute.js';
 import contactRoute from './routes/contactRoute.js';
+import cors from 'cors';
 
 const app = express();
 const port = process.env.PORT || 3000;
 
 dotenv.config();
+app.use(cors());
 app.use(express.json());
 app.use('/api/intro', introRoute);
 app.use('/api/about', aboutRoute);

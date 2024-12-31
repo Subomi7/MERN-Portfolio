@@ -1,49 +1,76 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import SectionTitle from '../../components/SectionTitle';
 import { DotLottieReact } from '@lottiefiles/dotlottie-react';
 const About = () => {
-  const skills = ['Javascript', 'React', 'Node', 'Express', 'MongoDB'];
-  return ( 
-    <div className=''>
-      <SectionTitle title='About' />
-      <div className='flex items-center w-full gap-10 sm:flex-col'>
-        <div className='h-[70vh] w-1/2 sm:w-full'>
-          <DotLottieReact
-            src='https://lottie.host/6636aaa0-4da0-4972-a469-30231ca593f7/ygFp4142oF.lottie'
-            autoplay
-          />
-        </div>
-        <div className='flex flex-col gap-5 w-1/2 sm:w-full'>
-          <p className='text-white'>
-            Hello! My name Is Oluwatobiloba Odeyemi . I enjoy creating things
-            that live on the internet. My interest in web development started
-            back in 2022 when i decided to try wordpress - turns out using of
-            plugins taught me a lot about HTML and CSS.
-          </p>
-          <p className='text-white'>
-            Fast-forward to today, and i have the privilege of working as an
-            intern at TechStudio Academy. My main focus these days is building
-            accessible, inclusive products and digital experienes at Mentor
-            Techies for a variety of clients. Here are a few technologies I've
-            been working with recently:{' '}
-          </p>
-        </div>
-      </div>
+  const [data, setData] = useState([]);
+  const [error, setError] = useState(false);
 
-      <div className='py-5'>
-        <h1 className='text-tertiary text-xl'>
-          Here are a few technologies I've been working with recently:
-        </h1>
-        <div className='flex flex-wrap justify-between mt-5'>
-          {skills.map((skill, index) => {
-            return (
-              <div className='border border-tertiary py-3 px-10'>
-                <h1 className='text-tertiary'>{skill}</h1>
+  const getData = async () => {
+    try {
+      const req = await fetch('http://localhost:3000/api/about/get-about');
+      if (!req.ok) {
+        throw new Error(`HTTP error! status: ${req.status}`);
+      }
+      const res = await req.json();
+      console.log(res);
+      setData(res.about);
+    } catch (error) {
+      console.error('Error fetching data:', error);
+      alert('Failed to fetch intro data. Please try again later.');
+    }
+  };
+
+  useEffect(() => {
+    getData();
+  }, []);
+
+  return (
+    <div className=''>
+      {data.length === 0 ? (
+        <>
+          <div className='text-white'>Loading...</div>
+        </>
+      ) : (
+        data.map((about) => {
+          const { lottieURL, description1, description2, skills, _id } = about;
+          return (
+            <div key={_id}>
+              <SectionTitle title='About' />
+              <div className='flex items-center w-full gap-10 sm:flex-col'>
+                <div className='h-[70vh] w-1/2 sm:w-full'>
+                  <DotLottieReact src={lottieURL} autoplay />
+                </div>
+                <div className='flex flex-col gap-5 w-1/2 sm:w-full'>
+                  <p className='text-white'>{description1}</p>
+                  <p className='text-white'>{description2}</p>
+                </div>
               </div>
-            );
-          })}
-        </div>
-      </div>
+
+              <div className='py-5'>
+                <h1 className='text-tertiary text-xl'>
+                  Here are a few technologies I've been working with recently:
+                </h1>
+                <div className='flex flex-wrap justify-between mt-5'>
+                  {Array.isArray(skills) ? (
+                    skills.map((skill, index) => (
+                      <div
+                        className='border border-tertiary py-3 px-10'
+                        key={index}
+                      >
+                        <h1 className='text-tertiary'>{skill}</h1>
+                      </div>
+                    ))
+                  ) : (
+                    <div className='border border-tertiary py-3 px-10'>
+                      <h1 className='text-tertiary'>{skills}</h1>
+                    </div>
+                  )}
+                </div>
+              </div>
+            </div>
+          );
+        })
+      )}
     </div>
   );
 };

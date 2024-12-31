@@ -19,3 +19,20 @@ export const createIntro = async (req, res) => {
     res.status(500).json(error.message);
   }
 };
+
+
+export const allIntro = async (req, res) => {
+  try {
+    const intro = await INTRO.find();
+    if (intro && intro.length === 0) {
+      res
+        .status(400)
+        .json({ success: false, errMsg: 'no project found / created' });
+      return;
+    }
+    res.status(200).json({ success: true, message: 'intro', intro });
+  } catch (error) {
+    console.log(error.message);
+    res.status(500).json(error.message);
+  }
+};

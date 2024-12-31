@@ -1,16 +1,38 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import SectionTitle from '../../components/SectionTitle';
 import { projects } from '../../resources/projects';
 
 const Projects = () => {
   const [selectedItemIndex, setSelectedItemIndex] = useState(0);
+  const [data, setData] = useState([]);
+
+  const getData = async () => {
+    try {
+      const req = await fetch(
+        'http://localhost:3000/api/projects/get-projects'
+      );
+      if (!req.ok) {
+        throw new Error(`HTTP error! status: ${req.status}`);
+      }
+      const res = await req.json();
+      console.log(res);
+      setData(res.project);
+    } catch (error) {
+      console.error('Error fetching data:', error);
+      alert('Failed to fetch intro data. Please try again later.');
+    }
+  };
+
+  useEffect(() => {
+    getData();
+  }, []);
 
   return (
     <div>
       <SectionTitle title='Projects' />
       <div className='flex py-10 items-center justify-between sm:flex-col gap-4'>
         <div className='flex flex-col gap-10 border-l-2 border-[#27dab082] w-1/2 sm:flex-row sm:overflow-x-scroll sm:w-full'>
-          {projects.map((project, index) => {
+          {data.map((project, index) => {
             const { title, _id } = project;
             return (
               <div
@@ -35,29 +57,32 @@ const Projects = () => {
         </div>
 
         <div className='flex items-center justify-center gap-10 sm:flex-col py-5 w-2/3 sm:w-full'>
-          <a href={projects[selectedItemIndex].link} target='_blank'>
-            <img
-              src={projects[selectedItemIndex].image}
-              className='h-60 w-64 cursor-pointer'
-            />
-          </a>
-          <div className='flex flex-col gap-5 w-2/3 sm:w-full'>
-            <h1 className='text-secondary text-xl'>
-              {projects[selectedItemIndex].title}
-            </h1>
-            <p className='text-white'>
-              {projects[selectedItemIndex].description}
-            </p>
-            <p className='text-white'>
-              Lorem ipsum dolor sit, amet consectetur adipisicing elit. Porro
-              quam velit sunt aliquid impedit aliquam repellendus cum, autem ad
-              tempora debitis eius. Atque quibusdam tempora deserunt eligendi
-              magni veritatis vel! Odio excepturi a aspernatur iusto ipsa
-              delectus ad suscipit possimus repellendus, accusantium molestiae.
-              Quae, dolore? Debitis, cum et dignissimos error aut at facere
-              quaerat temporibus harum eum fuga officia nulla.
-            </p>
-          </div>
+          {data.length > 0 && (
+            <>
+              <img
+                src={data[selectedItemIndex]?.image}
+                className='h-60 w-64 cursor-pointer'
+              />
+
+              <div className='flex flex-col gap-5 w-2/3 sm:w-full'>
+                <h1 className='text-secondary text-xl'>
+                  {data[selectedItemIndex]?.title}
+                </h1>
+                <p className='text-white'>
+                  {data[selectedItemIndex]?.description}
+                </p>
+                <a
+                  href={data[selectedItemIndex]?.link}
+                  target='_blank'
+                  alt='Click me'
+                >
+                  <button className='border-2 border-tertiary text-tertiary px-10 py-3 rounded'>
+                    View Site
+                  </button>
+                </a>
+              </div>
+            </>
+          )}
         </div>
       </div>
     </div>

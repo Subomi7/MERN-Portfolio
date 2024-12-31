@@ -17,3 +17,19 @@ export const createContact = async (req, res) => {
     res.status(500).json(error.message);
   }
 };
+
+export const allContact = async (req, res) => {
+  try {
+    const contact = await CONTACT.find();
+    if (contact && contact.length === 0) {
+      res
+        .status(400)
+        .json({ success: false, errMsg: 'no project found / created' });
+      return;
+    }
+    res.status(200).json({ success: true, message: 'contact', contact });
+  } catch (error) {
+    console.log(error.message);
+    res.status(500).json(error.message);
+  }
+};

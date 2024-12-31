@@ -1,14 +1,37 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import SectionTitle from '../../components/SectionTitle';
-import { experiences } from '../../resources/experience.jsx';
+// import { experiences } from '../../resources/experience.jsx';
 const Experiences = () => {
   const [selectedItemIndex, setSelectedItemIndex] = useState(0);
+  const [data, setData] = useState([]);
+
+  const getData = async () => {
+    try {
+      const req = await fetch(
+        'http://localhost:3000/api/experience/get-experience'
+      );
+      if (!req.ok) {
+        throw new Error(`HTTP error! status: ${req.status}`);
+      }
+      const res = await req.json();
+      console.log(res);
+      setData(res.experience);
+    } catch (error) {
+      console.error('Error fetching data:', error);
+      alert('Failed to fetch intro data. Please try again later.');
+    }
+  };
+
+  useEffect(() => {
+    getData();
+  }, []);
+
   return (
     <div>
       <SectionTitle title='Experience' />
       <div className='flex py-10 items-center justify-between sm:flex-col gap-4'>
         <div className='flex flex-col gap-10 border-l-2 border-[#27dab082] w-1/2 sm:flex-row sm:overflow-x-scroll sm:w-full'>
-          {experiences.map((experience, index) => {
+          {data.map((experience, index) => {
             const { period, _id } = experience;
             return (
               <div
@@ -32,24 +55,19 @@ const Experiences = () => {
           })}
         </div>
         <div className='flex flex-col gap-5 w-2/3 sm:w-full'>
-          <h1 className='text-secondary text-xl'>
-            {experiences[selectedItemIndex].title}
-          </h1>
-          <h1 className='text-tertiary text-xl'>
-            {experiences[selectedItemIndex].company}
-          </h1>
-          <p className='text-white'>
-            Lorem ipsum dolor sit, amet consectetur adipisicing elit. Porro quam
-            velit sunt aliquid impedit aliquam repellendus cum, autem ad tempora
-            debitis eius. Atque quibusdam tempora deserunt eligendi magni
-            veritatis vel! Odio excepturi a aspernatur iusto ipsa delectus ad
-            suscipit possimus repellendus, accusantium molestiae. Quae, dolore?
-            Debitis, cum et dignissimos error aut at facere quaerat temporibus
-            harum eum fuga officia nulla. Esse quo nam, harum nostrum illo ex et
-            rem quod, vel dolore excepturi perspiciatis nisi sit commodi unde?
-            Odit odio dolor maxime ipsa eos at quaerat nobis ipsam dolorem
-            beatae! eaque voluptatibus praesentium.
-          </p>
+          {data.length > 0 && (
+            <>
+              <h1 className='text-secondary text-xl'>
+                {data[selectedItemIndex]?.title}
+              </h1>
+              <h1 className='text-tertiary text-xl'>
+                {data[selectedItemIndex]?.company}
+              </h1>
+              <p className='text-white'>
+                {data[selectedItemIndex]?.description}
+              </p>
+            </>
+          )}
         </div>
       </div>
     </div>
