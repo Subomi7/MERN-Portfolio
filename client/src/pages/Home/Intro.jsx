@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { CPlaceholder } from '@coreui/react';
+import Placeholder from 'react-bootstrap/Placeholder';
 
 const Intro = () => {
   const [data, setData] = useState([]);
@@ -29,9 +29,12 @@ const Intro = () => {
     <div>
       {data.length === 0 ? (
         <div className='text-white'>
-          <CPlaceholder xs={6} />
-          <CPlaceholder className='w-75' />
-          <CPlaceholder style={{ width: '30%' }} />
+          <Placeholder as='p' animation='glow'>
+            <Placeholder xs={12} />
+          </Placeholder>
+          <Placeholder as='p' animation='wave'>
+            <Placeholder xs={12} />
+          </Placeholder>
         </div>
       ) : (
         data.map((intro) => {

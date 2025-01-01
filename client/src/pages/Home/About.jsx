@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import SectionTitle from '../../components/SectionTitle';
 import { DotLottieReact } from '@lottiefiles/dotlottie-react';
-import { CPlaceholder } from '@coreui/react';
+import Placeholder from 'react-bootstrap/Placeholder';
 
 const About = () => {
   const [data, setData] = useState([]);
@@ -30,12 +30,17 @@ const About = () => {
 
   return (
     <div className=''>
+      <SectionTitle title='About' />
+
       {data.length === 0 ? (
         <>
           <div className='text-white'>
-            <CPlaceholder xs={6} />
-            <CPlaceholder className='w-75' />
-            <CPlaceholder style={{ width: '30%' }} />
+            <Placeholder as='p' animation='glow'>
+              <Placeholder xs={12} />
+            </Placeholder>
+            <Placeholder as='p' animation='wave'>
+              <Placeholder xs={12} />
+            </Placeholder>
           </div>
         </>
       ) : (
@@ -43,7 +48,6 @@ const About = () => {
           const { lottieURL, description1, description2, skills, _id } = about;
           return (
             <div key={_id}>
-              <SectionTitle title='About' />
               <div className='flex items-center w-full gap-10 sm:flex-col'>
                 <div className='h-[70vh] w-1/2 sm:w-full'>
                   <DotLottieReact src={lottieURL} autoplay />

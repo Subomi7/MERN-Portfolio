@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import SectionTitle from '../../components/SectionTitle';
 import { projects } from '../../resources/projects';
-import { CPlaceholder } from '@coreui/react';
+import Placeholder from 'react-bootstrap/Placeholder';
 
 const Projects = () => {
   const [selectedItemIndex, setSelectedItemIndex] = useState(0);
@@ -30,15 +30,19 @@ const Projects = () => {
 
   return (
     <div>
+      <SectionTitle title='Projects' />
+
       {data.length === 0 ? (
         <>
-          <CPlaceholder xs={6} />
-          <CPlaceholder className='w-75' />
-          <CPlaceholder style={{ width: '30%' }} />
+          <Placeholder as='p' animation='glow'>
+            <Placeholder xs={12} />
+          </Placeholder>
+          <Placeholder as='p' animation='wave'>
+            <Placeholder xs={12} />
+          </Placeholder>
         </>
       ) : (
         <>
-          <SectionTitle title='Projects' />
           <div className='flex py-10 items-center justify-between sm:flex-col gap-4'>
             <div className='flex flex-col gap-10 border-l-2 border-[#27dab082] w-1/2 sm:flex-row sm:overflow-x-scroll sm:w-full'>
               {data.map((project, index) => {

@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import SectionTitle from '../../components/SectionTitle';
 import { DotLottieReact } from '@lottiefiles/dotlottie-react';
-import { CPlaceholder } from '@coreui/react';
+import Placeholder from 'react-bootstrap/Placeholder';
 
 const Contact = () => {
   const [data, setData] = useState([]);
@@ -38,16 +38,19 @@ const Contact = () => {
 
   return (
     <div>
+      <SectionTitle title='Say Hello' className='text-nowrap' />
+
       {data.length === 0 ? (
         <>
-          <CPlaceholder xs={6} />
-          <CPlaceholder className='w-75' />
-          <CPlaceholder style={{ width: '30%' }} />
+          <Placeholder as='p' animation='glow'>
+            <Placeholder xs={12} />
+          </Placeholder>
+          <Placeholder as='p' animation='wave'>
+            <Placeholder xs={12} />
+          </Placeholder>
         </>
       ) : (
         <>
-          <SectionTitle title='Say Hello' className='text-nowrap' />
-
           <div className='flex sm:flex-col-reverse items-center justify-between'>
             <div className='flex flex-col gap-1'>
               <p className='text-tertiary'>{'{'}</p>

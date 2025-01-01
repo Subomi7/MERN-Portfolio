@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import SectionTitle from '../../components/SectionTitle';
-import { CPlaceholder } from '@coreui/react';
+import Placeholder from 'react-bootstrap/Placeholder';
 
 // import { experiences } from '../../resources/experience.jsx';
 const Experiences = () => {
@@ -30,15 +30,18 @@ const Experiences = () => {
 
   return (
     <div>
+      <SectionTitle title='Experience' />
       {data.length === 0 ? (
         <>
-          <CPlaceholder xs={6} />
-          <CPlaceholder className='w-75' />
-          <CPlaceholder style={{ width: '30%' }} />
+          <Placeholder as='p' animation='glow'>
+            <Placeholder xs={12} />
+          </Placeholder>
+          <Placeholder as='p' animation='wave'>
+            <Placeholder xs={12} />
+          </Placeholder>
         </>
       ) : (
         <>
-          <SectionTitle title='Experience' />
           <div className='flex py-10 items-center justify-between sm:flex-col gap-4'>
             <div className='flex flex-col gap-10 border-l-2 border-[#27dab082] w-1/2 sm:flex-row sm:overflow-x-scroll sm:w-full'>
               {data.map((experience, index) => {
